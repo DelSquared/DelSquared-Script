@@ -23,20 +23,35 @@ fn main() {
     }
     println!("\n===== Split text: =====\n\n{:?}\n", content);
 
-    // define table for variables
-    let mut var_table: HashMap<&str, f32> = HashMap::new();
+    // define table for numerical variables
+    let mut num_table: HashMap<&str, f32> = HashMap::new();
 
     // example variable initialisation (remove later)
     println!("\n===== Var table tests: =====\n\n");
-    println!("{:?}\n", var_table);
-    var_table.insert("test_var", 100.0);
-    println!("{:?}\n", var_table);
-    var_table.insert("test_var2", 10.1);
-    println!("{:?}\n", var_table);
-    var_table.remove("test_var");
-    println!("{:?}\n", var_table);
-    var_table.remove("test_var2");
-    println!("{:?}\n", var_table);
+    println!("{:?}\n", num_table);
+    num_table.insert("test_var", 100.0);
+    println!("{:?}\n", num_table);
+    num_table.insert("test_var2", 10.1);
+    println!("{:?}\n", num_table);
+    num_table.remove("test_var");
+    println!("{:?}\n", num_table);
+    num_table.remove("test_var2");
+    println!("{:?}\n", num_table);
+
+    // define table for boolean variables
+    let mut bool_table: HashMap<&str, bool> = HashMap::new();
+
+    // example variable initialisation (remove later)
+    println!("\n===== Var table tests: =====\n\n");
+    println!("{:?}\n", bool_table);
+    bool_table.insert("test_var", true);
+    println!("{:?}\n", bool_table);
+    bool_table.insert("test_var2", false);
+    println!("{:?}\n", bool_table);
+    bool_table.remove("test_var");
+    println!("{:?}\n", bool_table);
+    bool_table.remove("test_var2");
+    println!("{:?}\n", bool_table);
 
     // define regex patterns for parsing... Might not keep this idk
     let mut parse_patterns: Vec<&str> = Vec::new();
@@ -61,33 +76,35 @@ fn main() {
     bin_num_ops.insert("*".to_string(), |x, y| x * y);
     bin_num_ops.insert("/".to_string(), |x, y| x / y);
     let bin_num_ops = bin_num_ops;
-    println!("\n===== Numerical Operators: =====\n\n{:?}\n", bin_num_ops.keys().cloned().collect::<Vec<String>>());
+    println!("\n===== Binary Numerical Operators: =====\n\n{:?}\n", bin_num_ops.keys().cloned().collect::<Vec<String>>());
 
-    // define language binary logical operators
+    // define language logical operators
     let mut bin_log_ops: HashMap<String, fn(bool,bool)->bool> = HashMap::new();
-    bin_log_ops.insert("&".to_string(), |x, y| x & y);
-    bin_log_ops.insert("|".to_string(), |x, y| x | y);
-    bin_log_ops.insert("^".to_string(), |x, y| x ^ y);
+    bin_log_ops.insert("&".to_string(), |x,  y| x & y);
+    bin_log_ops.insert("|".to_string(), |x,  y| x | y);
+    bin_log_ops.insert("^".to_string(), |x,  y| x ^ y);
+    bin_log_ops.insert("!".to_string(), |x, _y| !x );
     let bin_log_ops = bin_log_ops;
     println!("\n===== Logical Operators: =====\n\n{:?}\n", bin_log_ops.keys().cloned().collect::<Vec<String>>());
 
     // define language comparative operators
-    let mut bin_log_ops: HashMap<String, fn(f32,f32)->bool> = HashMap::new();
-    bin_log_ops.insert("<=".to_string(), |x, y| x <= y);
-    bin_log_ops.insert(">=".to_string(), |x, y| x >= y);
-    bin_log_ops.insert("==".to_string(), |x, y| x == y);
-    bin_log_ops.insert("!=".to_string(), |x, y| x != y);
-    bin_log_ops.insert("<".to_string(),  |x, y| x <  y);
-    bin_log_ops.insert(">".to_string(),  |x, y| x >  y);
-    let bin_log_ops = bin_log_ops;
-    println!("\n===== Logical Operators: =====\n\n{:?}\n", bin_log_ops.keys().cloned().collect::<Vec<String>>());
+    let mut bin_comp_ops: HashMap<String, fn(f32,f32)->bool> = HashMap::new();
+    bin_comp_ops.insert("<=".to_string(), |x, y| x <= y);
+    bin_comp_ops.insert(">=".to_string(), |x, y| x >= y);
+    bin_comp_ops.insert("==".to_string(), |x, y| x == y);
+    bin_comp_ops.insert("!=".to_string(), |x, y| x != y);
+    bin_comp_ops.insert("<".to_string(),  |x, y| x <  y);
+    bin_comp_ops.insert(">".to_string(),  |x, y| x >  y);
+    let bin_comp_ops = bin_comp_ops;
+    println!("\n===== Binary Comparative Operators: =====\n\n{:?}\n", bin_comp_ops.keys().cloned().collect::<Vec<String>>());
 
     // define language control operators
-    // let mut bin_log_ops: HashMap<String, fn(f32,f32)->bool> = HashMap::new();
-    // bin_log_ops.insert("=".to_string(), |x, y| x <= y);
-    // bin_log_ops.insert("~".to_string(), |x, y| x >= y);
-    // let bin_log_ops = bin_log_ops;
-    // println!("\n===== Logical Operators: =====\n\n{:?}\n", bin_log_ops.keys().cloned().collect::<Vec<String>>());
+    let mut bin_ctrl_ops: HashMap<String, i32> = HashMap::new();
+    bin_ctrl_ops.insert("=".to_string(), 0); // initialise
+    bin_ctrl_ops.insert("~".to_string(), 1); // destroy
+    let bin_ctrl_ops = bin_ctrl_ops;
+    println!("\n===== Control Operators: =====\n\n{:?}\n", bin_ctrl_ops.keys().cloned().collect::<Vec<String>>());
+
 
 
 }
