@@ -1,0 +1,2 @@
+# DelSquared-Script
+DelSquared-Script
