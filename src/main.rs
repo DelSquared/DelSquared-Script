@@ -1,7 +1,30 @@
 use std::env;
 use std::fs;
+use std::fmt;
 use std::collections::HashMap;
 use std::time::Instant;
+
+union Val {
+    i: i32,
+    f: f32,
+}
+
+struct Num {
+    typ: char, // Hopefully can get away with just i, f, etc. Will swap to String if one char is insufficient
+    val: Val,
+}
+
+impl fmt::Debug for Num {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        if *&self.typ == 'i'{
+            unsafe{ f.write_fmt(format_args!("{}", &self.val.i))}
+        } else if *&self.typ == 'f'{
+            unsafe{ f.write_fmt(format_args!("{}", &self.val.f))}
+        } else {
+            f.write_fmt(format_args!("{}?", &self.typ)) //weird type wtf?
+        }
+    }
+}
 
 fn is_peelable(expr: &str) -> bool {
     // peelable := contains no brackets, or contains brackets that are nested properly such that they encapsulate an interior that is also peelable
@@ -9,12 +32,12 @@ fn is_peelable(expr: &str) -> bool {
     let left_c : i8 = expr.matches('(').count() as i8; // counts all '('
     let right_c : i8 = expr.matches(')').count() as i8; // counts all ')'
     // preliminary condition checks if num of '(' and num of ')' are equal
-    if (left_c != right_c){
+    if left_c != right_c{
         return false // short circuit
     } else {
     }
     // preliminary condition checks if they are both 0 (assuming first condition passes)
-    if (left_c == 0){
+    if left_c == 0{
         return true // short circuit
     } else {
     }
@@ -71,19 +94,19 @@ fn main() {
 
     // define table for numerical variables
     let now = Instant::now();
-    let mut num_table: HashMap<&str, f32> = HashMap::new();
+    let mut num_table: HashMap<&str, Num> = HashMap::new();
 
     // example variable initialisation (remove later)
     println!("\n===== Var table tests: =====\n\n");
-    println!("{:?}\n", num_table);
-    num_table.insert("test_var", 100.0);
-    println!("{:?}\n", num_table);
-    num_table.insert("test_var2", 10.1);
-    println!("{:?}\n", num_table);
+    println!("{:#?}\n", num_table);
+    num_table.insert("test_var", Num{typ:'i', val:Val{i:100}});
+    println!("{:#?}\n", num_table);
+    num_table.insert("test_var2", Num{typ:'f', val:Val{f:10.1}});
+    println!("{:#?}\n", num_table);
     num_table.remove("test_var");
-    println!("{:?}\n", num_table);
+    println!("{:#?}\n", num_table);
     num_table.remove("test_var2");
-    println!("{:?}\n", num_table);
+    println!("{:#?}\n", num_table);
     let elapsed = now.elapsed();
     println!("Elapsed: {:.2?}\n", elapsed);
 
