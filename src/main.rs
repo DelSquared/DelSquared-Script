@@ -1,66 +1,11 @@
-use std::env;
-use std::fs;
-use std::fmt;
+use std::{env,fs};
 use std::collections::HashMap;
 use std::time::Instant;
 
-union Val {
-    i: i32,
-    f: f32,
-}
-
-struct Num {
-    typ: char, // Hopefully can get away with just i, f, etc. Will swap to String if one char is insufficient
-    val: Val,
-}
-
-impl fmt::Debug for Num {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        if *&self.typ == 'i'{
-            unsafe{ f.write_fmt(format_args!("{}", &self.val.i))}
-        } else if *&self.typ == 'f'{
-            unsafe{ f.write_fmt(format_args!("{}", &self.val.f))}
-        } else {
-            f.write_fmt(format_args!("{}?", &self.typ)) //weird type wtf?
-        }
-    }
-}
-
-fn is_peelable(expr: &str) -> bool {
-    // peelable := contains no brackets, or contains brackets that are nested properly such that they encapsulate an interior that is also peelable
-    // checks if all lines in the code have matching '(' and ')'
-    let left_c : i8 = expr.matches('(').count() as i8; // counts all '('
-    let right_c : i8 = expr.matches(')').count() as i8; // counts all ')'
-    // preliminary condition checks if num of '(' and num of ')' are equal
-    if left_c != right_c{
-        return false // short circuit
-    } else {
-    }
-    // preliminary condition checks if they are both 0 (assuming first condition passes)
-    if left_c == 0{
-        return true // short circuit
-    } else {
-    }
-    // if the first bracket occurence is a ')' it's automatically invalid
-    for ch in expr.chars() {
-        if ch == ')' {
-            return false // short circuit
-        }else if ch == '(' {
-            break;
-        }else {
-        };
-    }
-    // if the last bracket occurence is a '(' it's automatically invalid
-    for ch in expr.chars().rev() {
-        if ch == '(' {
-            return false // short circuit
-        }else if ch == ')' {
-            break;
-        }else {
-        };
-    }
-    return true // all tests passed therefore line is peelable
-}
+mod utility;
+use utility::is_peelable;
+mod typing;
+//use typing::Num;
 
 fn main() {
     // commandline args
@@ -144,7 +89,8 @@ fn main() {
     kwds.push("else");
     kwds.push("end");
     kwds.push("label");
-    kwds.push("goto");
+    kwds.push("goto"); // primitive way to eventually handle looping and functions when starting off
+    kwds.push("RPN"); // to evaluate expressions written in Reverse Polish Notation since the parsing is easier to implement starting off
     let elapsed = now.elapsed();
     let kwds: Vec<&str> = kwds;
     println!("\n===== Keywords: =====\n\n{:?}\n", kwds);
