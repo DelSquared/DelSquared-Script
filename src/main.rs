@@ -92,16 +92,16 @@ fn main() {
     println!("Correct use of brackets: {}\n",bracket_check);
     println!("Elapsed: {:.2?}\n", elapsed);
 
-    // define table for numerical variables
+    // define table for float variables
     let now = Instant::now();
-    let mut num_table: HashMap<&str, Num> = HashMap::new();
+    let mut num_table: HashMap<&str, f32> = HashMap::new();
 
     // example variable initialisation (remove later)
     println!("\n===== Var table tests: =====\n\n");
     println!("{:#?}\n", num_table);
-    num_table.insert("test_var", Num{typ:'i', val:Val{i:100}});
+    num_table.insert("test_var", 100.0);
     println!("{:#?}\n", num_table);
-    num_table.insert("test_var2", Num{typ:'f', val:Val{f:10.1}});
+    num_table.insert("test_var2", 10.1);
     println!("{:#?}\n", num_table);
     num_table.remove("test_var");
     println!("{:#?}\n", num_table);
@@ -157,6 +157,7 @@ fn main() {
     bin_num_ops.insert("-".to_string(), |x, y| x - y);
     bin_num_ops.insert("*".to_string(), |x, y| x * y);
     bin_num_ops.insert("/".to_string(), |x, y| x / y);
+    bin_num_ops.insert("%".to_string(), |x, y| x % y);
     let bin_num_ops = bin_num_ops;
     let elapsed = now.elapsed();
     println!("\n===== Binary Numerical Operators: =====\n\n{:?}\n", bin_num_ops.keys().cloned().collect::<Vec<String>>());
