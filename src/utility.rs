@@ -33,3 +33,10 @@ pub fn is_peelable(expr: &str) -> bool {
     }
     return true // all tests passed therefore line is peelable
 }
+
+// pub fn strip_trailing_newline(input: &str) -> &str {
+//     input
+//         .strip_suffix("\r\n")
+//         .or(input.strip_suffix("\n"))
+//         .unwrap_or(input)
+// }

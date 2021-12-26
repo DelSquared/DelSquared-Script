@@ -1,0 +1,8 @@
+a : num = 5
+b : num = 6
+
+RPN : 2 2 + 1 - = first_eval
+
+RPN : 2 2 2 2 $ 5 5 £ 10 - = second_eval
+
+RPN : a b + a * b * = third_eval
